@@ -1,0 +1,31 @@
+{
+  "name": "no-ai",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "An MV3 extension which \"opts-out\" of data training and personalization on AI websites",
+  "scripts": {
+    "dev": "vite --mode development build",
+    "build": "vite --mode production build",
+    "lint:eslint": "eslint --max-warnings 0 --cache --cache-strategy content",
+    "lint:oxlint": "oxlint",
+    "lint:tsc": "tsc --strict --noEmit",
+    "lint": "$npm_execpath run lint:oxlint &&$npm_execpath run lint:tsc && $npm_execpath run lint:eslint",
+    "format:all": "$npm_execpath run format .",
+    "format": "prettier -w"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.1.42",
+    "@types/node": "25.8.0",
+    "npm-check-updates": "22.2.0",
+    "oxlint": "1.65.0",
+    "prettier": "3.8.3",
+    "typescript": "6.0.2",
+    "vite": "8.0.12"
+  },
+  "dependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.4.0",
+    "typescript-eslint": "^8.59.3"
+  }
+}
