@@ -21,7 +21,7 @@
     "oxlint": "1.65.0",
     "prettier": "3.8.3",
     "typescript": "6.0.2",
-    "vite": "8.0.12"
+    "vite": "8.0.13"
   },
   "dependencies": {
     "@eslint/js": "^10.0.1",
