@@ -20,12 +20,12 @@
     "npm-check-updates": "22.2.0",
     "oxlint": "1.65.0",
     "prettier": "3.8.3",
-    "typescript": "6.0.2",
-    "vite": "8.0.12"
+    "typescript": "6.0.3",
+    "vite": "8.0.13"
   },
   "dependencies": {
-    "@eslint/js": "^10.0.1",
-    "eslint": "^10.4.0",
-    "typescript-eslint": "^8.59.3"
+    "@eslint/js": "10.0.1",
+    "eslint": "10.4.0",
+    "typescript-eslint": "8.59.3"
   }
 }
