@@ -1,10 +1,12 @@
 import { resolve } from "node:path";
 import type { Plugin, ResolvedConfig } from "vite";
+import { BrowserPlatform } from "./manifest.config";
 
 const ENTRY_TOKEN = "<<ENTRY>>";
 const SCRIPT_TOKEN = "<<SCRIPT>>";
 
 export interface ManifestBuilderOptions {
+  platform: BrowserPlatform,
   loaderScriptEntry: string;
   contentScriptEntry: string;
 }
@@ -67,9 +69,10 @@ export const webExtensionManifestBuilder = function (
         );
       }
 
-      const { MANIFEST } = await import("./manifest.config");
+      const { buildManifest } = await import("./manifest.config");
 
-      let manifestJson = JSON.stringify(MANIFEST, null, 2);
+      const manifest = buildManifest(options.platform)
+      let manifestJson = JSON.stringify(manifest, null, 2);
       manifestJson = manifestJson.replaceAll(ENTRY_TOKEN, loaderFileName);
 
       this.emitFile({

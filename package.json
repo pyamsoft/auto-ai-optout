@@ -1,12 +1,14 @@
 {
   "name": "auto-ai-optout",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "homepage": "https://github.com/pyamsoft/auto-ai-optout",
+  "version": "0.0.1",
   "type": "module",
   "description": "An MV3 extension which \"opts-out\" of data training and personalization on AI websites",
   "scripts": {
     "dev": "vite --mode development build",
-    "build": "vite --mode production build",
+    "build:chrome": "__CHROME__=1 vite --mode production build",
+    "build:firefox": "__FIREFOX__=1 vite --mode production build",
     "lint:eslint": "eslint --max-warnings 0 --cache --cache-strategy content",
     "lint:oxlint": "oxlint",
     "lint:tsc": "tsc --strict --noEmit",

@@ -1,12 +1,28 @@
 import { defineConfig } from "vite";
 import { webExtensionManifestBuilder } from "./buildsystem/plugins/webExtensionManifest/webExtensionManifestBuilder";
 import { removeVitePreloadFromCommonJs } from "./buildsystem/plugins/removeVitePreload/removeVitePreloadFromCommonJs";
+import { BrowserPlatform } from "./buildsystem/plugins/webExtensionManifest/manifest.config";
+import { join } from "node:path";
 
 export default defineConfig((env) => {
   const loaderScript = "src/loader.ts";
   const entryPointScript = "src/entrypoint.ts";
 
   const isDebug = env.mode === "development";
+  const isFirefox = process.env.__FIREFOX__ === "1";
+  const isChrome = process.env.__CHROME__ === "1";
+
+  let platform: BrowserPlatform;
+  if (isChrome) {
+    platform = BrowserPlatform.CHROME;
+  } else if (isFirefox) {
+    platform = BrowserPlatform.FIREFOX;
+  } else {
+    throw new Error(
+      "Unsupported browser platform. Must be one of: 'chrome', 'firefox'",
+    );
+  }
+
   return {
     build: {
       // Disable module preload, we don't need it since the extension has no HTML
@@ -15,7 +31,7 @@ export default defineConfig((env) => {
       modulePreload: false,
 
       emptyOutDir: true,
-      outDir: "dist",
+      outDir: join("dist", platform),
 
       minify: !isDebug,
       cssMinify: !isDebug,
@@ -35,6 +51,7 @@ export default defineConfig((env) => {
     plugins: [
       removeVitePreloadFromCommonJs(),
       webExtensionManifestBuilder({
+        platform,
         loaderScriptEntry: loaderScript,
         contentScriptEntry: entryPointScript,
       }),
