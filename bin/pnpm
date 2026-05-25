@@ -1,0 +1,63 @@
+#!/bin/sh
+
+#
+# Copyright 2025 pyamsoft
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+readonly NAME="setup"
+
+BIN_DIR="$(dirname "$(realpath "$0")")"
+ROOT_DIR="$(realpath "${BIN_DIR}/..")"
+readonly BIN_DIR
+readonly ROOT_DIR
+
+_log() {
+  _msg="$1"
+  shift
+
+  printf -- "[%s] ${_msg}\n" "${NAME}" "$@"
+
+  unset _msg
+  return 0
+}
+
+main() {
+  if ! command -v corepack >/dev/null 2>&1; then
+    _log 'You must install "corepack"'
+    return 1
+  fi
+
+  cd "${ROOT_DIR}" || {
+    _log 'Failed to move into project root: %s' "${ROOT_DIR}"
+    return 1
+  }
+
+  _corepack_target="${ROOT_DIR}/lib"
+  _pnpm="${_corepack_target}/pnpm"
+  if [ ! -d "${_corepack_target}" ] || [ ! -x "${_pnpm}" ]; then
+    _log 'Corepack install is missing. Running setup...'
+    if [ -x "${BIN_DIR}/setup" ]; then
+      "${BIN_DIR}/setup" || {
+        _log 'Failed running local setup.'
+        return 1
+      }
+    fi
+  fi
+
+  exec "${_pnpm}" "$@"
+}
+
+main "$@" || exit 1
+exit 0
