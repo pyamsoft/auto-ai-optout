@@ -2,7 +2,11 @@
 
 An MV3 extension which "opts-out" of data training and personalization on AI websites
 
-## Chrome/Firefox Store?
+## Firefox Store
+
+[Find the link here](https://addons.mozilla.org/en-US/firefox/addon/auto-ai-optout/)
+
+## Chrome Store?
 
 Maybe some day. For now, build it using `npm run build` and load it as an unpacked extension.
 
