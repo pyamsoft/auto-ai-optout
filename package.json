@@ -18,15 +18,15 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@types/chrome": "0.1.42",
-    "@types/node": "25.9.1",
+    "@types/chrome": "0.1.43",
+    "@types/node": "25.9.2",
     "eslint": "10.4.1",
-    "npm-check-updates": "22.2.1",
+    "npm-check-updates": "22.2.3",
     "oxlint": "1.68.0",
     "prettier": "3.8.3",
     "typescript": "6.0.3",
     "typescript-eslint": "8.60.1",
     "vite": "8.0.16"
   },
-  "packageManager": "pnpm@11.5.1"
+  "packageManager": "pnpm@11.5.2"
 }
