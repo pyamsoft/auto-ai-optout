@@ -19,7 +19,7 @@
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@types/chrome": "0.1.43",
-    "@types/node": "25.9.3",
+    "@types/node": "26.0.0",
     "eslint": "10.5.0",
     "npm-check-updates": "22.2.3",
     "oxlint": "1.70.0",
@@ -28,5 +28,5 @@
     "typescript-eslint": "8.61.1",
     "vite": "8.0.16"
   },
-  "packageManager": "pnpm@11.7.0"
+  "packageManager": "pnpm@11.8.0"
 }
