@@ -4,7 +4,7 @@ export const safeAccessStorage = function <T extends Storage>(
   logger: Logger,
   storage: T,
 ): T {
-  return {
+  return Object.freeze({
     get length(): number {
       try {
         return storage.length;
@@ -51,5 +51,5 @@ export const safeAccessStorage = function <T extends Storage>(
         logger.error(e, "Unable to setItem to storage:", { key, value });
       }
     },
-  } as T;
+  } satisfies Storage as T);
 };

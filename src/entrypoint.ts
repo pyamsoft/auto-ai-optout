@@ -2,6 +2,7 @@ import { safeAccessStorage } from "./storage/safeStorage.ts";
 import { newConsoleLogger } from "./logger/console.ts";
 import { executeOptOut } from "./sites/optOut.ts";
 import type { Logger } from "./logger/logger.ts";
+import { type CookieUpdater, safeCookieUpdater } from "./storage/safeCookie.ts";
 
 (() => {
   const resolveSafeStorage = function (logger: Logger): Storage | undefined {
@@ -21,8 +22,31 @@ import type { Logger } from "./logger/logger.ts";
     return safeStorage;
   };
 
-  const initialize = function (logger: Logger, safeStorage: Storage) {
-    executeOptOut(logger, safeStorage);
+  const createCookieUpdater = function (
+    logger: Logger,
+  ): CookieUpdater | undefined {
+    try {
+      // Intentional self assign to test if we can read and write to document.cookie
+      // eslint-disable-next-line no-self-assign
+      document.cookie = document.cookie;
+    } catch (e) {
+      logger.error(e, "Could not safely read from document.cookie");
+      return undefined;
+    }
+
+    return safeCookieUpdater(
+      logger,
+      () => document.cookie,
+      (cookie) => (document.cookie = cookie),
+    );
+  };
+
+  const initialize = function (
+    logger: Logger,
+    safeCookie: CookieUpdater,
+    safeStorage: Storage,
+  ) {
+    executeOptOut(logger, safeCookie, safeStorage);
   };
 
   const main = function () {
@@ -32,11 +56,17 @@ import type { Logger } from "./logger/logger.ts";
 
     const safeStorage = resolveSafeStorage(logger);
     if (!safeStorage) {
-      logger.warn("Extension can not continue!");
+      logger.warn("No safeStorage: Extension can not continue!");
       return;
     }
 
-    initialize(logger, safeStorage);
+    const safeCookie = createCookieUpdater(logger);
+    if (!safeCookie) {
+      logger.warn("No safeCookie: Extension can not continue!");
+      return;
+    }
+
+    initialize(logger, safeCookie, safeStorage);
     logger.log("Initialized!");
   };
 

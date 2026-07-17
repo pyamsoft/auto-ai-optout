@@ -1,3 +1,5 @@
+import type { CookieUpdater } from "../../../storage/safeCookie.ts";
+
 const OPT_OUT_KEYS = new Map([
   [
     "oai/apps/noAuthAdsControls",
@@ -7,11 +9,19 @@ const OPT_OUT_KEYS = new Map([
   ],
 ]);
 
-/**
- * ChatGPT stores it's ads permission in localStorage
- */
-export const optOutAds = function (safeStorage: Storage) {
+export const optOutAds = function (
+  safeCookie: CookieUpdater,
+  safeStorage: Storage,
+) {
+  // Old location in Local storage
   for (const [key, value] of OPT_OUT_KEYS) {
     safeStorage.setItem(key, value);
   }
+
+  // New location in document.cookie
+  safeCookie
+    .ensureCookie("oai_consent_analytics", false)
+    .ensureCookie("oai_consent_marketing", false)
+    .ensureCookie("oai_consent_personalization", false)
+    .apply();
 };

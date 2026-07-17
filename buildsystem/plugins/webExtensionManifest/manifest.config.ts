@@ -28,8 +28,7 @@ interface BrowserSpecificSettings {
     id: string;
     data_collection_permissions: {
       required:
-        | typeof NO_REQUIRED_PERMISSIONS
-        | RequiredDataCollectionPermissions[];
+        typeof NO_REQUIRED_PERMISSIONS | RequiredDataCollectionPermissions[];
       optional?: readonly string[];
     };
   };
@@ -37,7 +36,7 @@ interface BrowserSpecificSettings {
 
 type BuiltManifest = chrome.runtime.ManifestV3 & {
   browser_specific_settings?: BrowserSpecificSettings;
-}
+};
 
 export const enum BrowserPlatform {
   CHROME = "chrome",
@@ -74,10 +73,10 @@ export const buildManifest = function (
   };
 
   if (platform === BrowserPlatform.FIREFOX) {
-    manifest.browser_specific_settings ={
+    manifest.browser_specific_settings = {
       gecko: {
         id: "{dbd7b55e-20ec-4f74-af18-79574d15f1bf}",
-          data_collection_permissions: {
+        data_collection_permissions: {
           required: NO_REQUIRED_PERMISSIONS,
         },
       },
