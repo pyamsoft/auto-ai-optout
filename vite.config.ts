@@ -52,6 +52,7 @@ export default defineConfig((env) => {
       removeVitePreloadFromCommonJs(),
       webExtensionManifestBuilder({
         platform,
+        release: !isDebug,
         loaderScriptEntry: loaderScript,
         contentScriptEntry: entryPointScript,
       }),

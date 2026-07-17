@@ -6,7 +6,8 @@
   "type": "module",
   "description": "An MV3 extension which \"opts-out\" of data training and personalization on AI websites",
   "scripts": {
-    "dev": "vite --mode development build",
+    "dev:chrome": "__CHROME__=1 vite --mode development build",
+    "dev:firefox": "__FIREFOX__=1 vite --mode development build",
     "build:chrome": "__CHROME__=1 vite --mode production build",
     "build:firefox": "__FIREFOX__=1 vite --mode production build",
     "lint:eslint": "eslint --report-unused-disable-directives --max-warnings 0 --cache --cache-strategy content .",

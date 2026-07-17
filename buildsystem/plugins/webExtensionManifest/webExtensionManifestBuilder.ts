@@ -7,6 +7,7 @@ const SCRIPT_TOKEN = "<<SCRIPT>>";
 
 export interface ManifestBuilderOptions {
   platform: BrowserPlatform;
+  release: boolean,
   loaderScriptEntry: string;
   contentScriptEntry: string;
 }
@@ -71,7 +72,7 @@ export const webExtensionManifestBuilder = function (
 
       const { buildManifest } = await import("./manifest.config");
 
-      const manifest = buildManifest(options.platform);
+      const manifest = buildManifest(options.platform, options.release);
       let manifestJson = JSON.stringify(manifest, null, 2);
       manifestJson = manifestJson.replaceAll(ENTRY_TOKEN, loaderFileName);
 

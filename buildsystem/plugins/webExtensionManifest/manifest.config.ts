@@ -5,7 +5,10 @@ import {
   version as pkgVersion,
 } from "../../../package.json";
 
-const WEBSITE_CHATGPT = ["https://chatgpt.com/*", "https://*.chatgpt.com/*"];
+const WEBSITE_CHATGPT = [
+  "https://chatgpt.com/*",
+  "https://*.chatgpt.com/*",
+];
 const SUPPORTED_WEBSITES = [...WEBSITE_CHATGPT];
 
 type RequiredDataCollectionPermissions =
@@ -43,9 +46,13 @@ export const enum BrowserPlatform {
   FIREFOX = "firefox",
 }
 
+const GECKO_ID_RELEASE = "{dbd7b55e-20ec-4f74-af18-79574d15f1bf}";
+const GECKO_ID_DEV = "{aa9e13cc-be14-4079-924e-12d406ae882f}";
+
 // noinspection JSUnusedGlobalSymbols
 export const buildManifest = function (
   platform: BrowserPlatform,
+  release: boolean,
 ): chrome.runtime.ManifestV3 {
   const manifest: BuiltManifest = {
     manifest_version: 3,
@@ -75,7 +82,7 @@ export const buildManifest = function (
   if (platform === BrowserPlatform.FIREFOX) {
     manifest.browser_specific_settings = {
       gecko: {
-        id: "{dbd7b55e-20ec-4f74-af18-79574d15f1bf}",
+        id: release ? GECKO_ID_RELEASE : GECKO_ID_DEV,
         data_collection_permissions: {
           required: NO_REQUIRED_PERMISSIONS,
         },
