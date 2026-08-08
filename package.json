@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@types/chrome": "0.2.2",
+    "@types/chrome": "0.2.5",
     "@types/node": "26.1.2",
     "eslint": "10.8.0",
     "npm-check-updates": "23.0.0",
