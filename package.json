@@ -26,7 +26,7 @@
     "oxlint": "1.76.0",
     "prettier": "3.9.6",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.65.0",
+    "typescript-eslint": "8.66.0",
     "vite": "8.1.5"
   },
   "packageManager": "pnpm@11.17.0"
