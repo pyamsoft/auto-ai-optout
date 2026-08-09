@@ -3,12 +3,9 @@ import {
   homepage as pkgHomePage,
   name as pkgName,
   version as pkgVersion,
-} from "../../../package.json";
+} from "../../../package.json" with { type: "json" };
 
-const WEBSITE_CHATGPT = [
-  "https://chatgpt.com/*",
-  "https://*.chatgpt.com/*",
-];
+const WEBSITE_CHATGPT = ["https://chatgpt.com/*", "https://*.chatgpt.com/*"];
 const SUPPORTED_WEBSITES = [...WEBSITE_CHATGPT];
 
 type RequiredDataCollectionPermissions =

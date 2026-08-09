@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
-import { webExtensionManifestBuilder } from "./buildsystem/plugins/webExtensionManifest/webExtensionManifestBuilder";
-import { removeVitePreloadFromCommonJs } from "./buildsystem/plugins/removeVitePreload/removeVitePreloadFromCommonJs";
-import { BrowserPlatform } from "./buildsystem/plugins/webExtensionManifest/manifest.config";
+import { webExtensionManifestBuilder } from "./buildsystem/plugins/webExtensionManifest/webExtensionManifestBuilder.ts";
+import { removeVitePreloadFromCommonJs } from "./buildsystem/plugins/removeVitePreload/removeVitePreloadFromCommonJs.ts";
+import { BrowserPlatform } from "./buildsystem/plugins/webExtensionManifest/manifest.config.ts";
 import { join } from "node:path";
 
 export default defineConfig((env) => {
