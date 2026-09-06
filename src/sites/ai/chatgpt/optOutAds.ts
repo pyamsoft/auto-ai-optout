@@ -23,5 +23,7 @@ export const optOutAds = function (
     .ensureCookie("oai_consent_analytics", false)
     .ensureCookie("oai_consent_marketing", false)
     .ensureCookie("oai_consent_personalization", false)
+    // Noticed as of Sep 6, 2026
+    .ensureCookie("oai-no-auth-training-disabled", 1)
     .apply();
 };
