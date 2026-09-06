@@ -2,7 +2,7 @@
   "name": "auto-ai-optout",
   "private": false,
   "homepage": "https://github.com/pyamsoft/auto-ai-optout",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "description": "An MV3 extension which \"opts-out\" of data training and personalization on AI websites",
   "scripts": {
