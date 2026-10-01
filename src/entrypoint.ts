@@ -4,71 +4,69 @@ import { executeOptOut } from "./sites/optOut.ts";
 import type { Logger } from "./logger/logger.ts";
 import { type CookieUpdater, safeCookieUpdater } from "./storage/safeCookie.ts";
 
-(() => {
-  const resolveSafeStorage = function (logger: Logger): Storage | undefined {
-    let safeStorage: Storage;
-    if ("localStorage" in window) {
-      try {
-        safeStorage = safeAccessStorage(logger, window.localStorage);
-      } catch (e) {
-        logger.error(e, "Unable to initialize safe window.localStorage");
-        return undefined;
-      }
-    } else {
-      logger.warn("Could not access window.localStorage.");
-      return undefined;
-    }
-
-    return safeStorage;
-  };
-
-  const createCookieUpdater = function (
-    logger: Logger,
-  ): CookieUpdater | undefined {
+const resolveSafeStorage = function (logger: Logger): Storage | undefined {
+  let safeStorage: Storage;
+  if ("localStorage" in window) {
     try {
-      // Intentional self assign to test if we can read and write to document.cookie
-      // eslint-disable-next-line no-self-assign
-      document.cookie = document.cookie;
+      safeStorage = safeAccessStorage(logger, window.localStorage);
     } catch (e) {
-      logger.error(e, "Could not safely read from document.cookie");
+      logger.error(e, "Unable to initialize safe window.localStorage");
       return undefined;
     }
+  } else {
+    logger.warn("Could not access window.localStorage.");
+    return undefined;
+  }
 
-    return safeCookieUpdater(
-      logger,
-      () => document.cookie,
-      (cookie) => (document.cookie = cookie),
-    );
-  };
+  return safeStorage;
+};
 
-  const initialize = function (
-    logger: Logger,
-    safeCookie: CookieUpdater,
-    safeStorage: Storage,
-  ) {
-    executeOptOut(logger, safeCookie, safeStorage);
-  };
+const createCookieUpdater = function (
+  logger: Logger,
+): CookieUpdater | undefined {
+  try {
+    // Intentional self assign to test if we can read and write to document.cookie
+    // eslint-disable-next-line no-self-assign
+    document.cookie = document.cookie;
+  } catch (e) {
+    logger.error(e, "Could not safely read from document.cookie");
+    return undefined;
+  }
 
-  const main = function () {
-    const logger = newConsoleLogger();
+  return safeCookieUpdater(
+    logger,
+    () => document.cookie,
+    (cookie) => (document.cookie = cookie),
+  );
+};
 
-    logger.log("Initializing...");
+const initialize = function (
+  logger: Logger,
+  safeCookie: CookieUpdater,
+  safeStorage: Storage,
+) {
+  executeOptOut(logger, safeCookie, safeStorage);
+};
 
-    const safeStorage = resolveSafeStorage(logger);
-    if (!safeStorage) {
-      logger.warn("No safeStorage: Extension can not continue!");
-      return;
-    }
+const main = function () {
+  const logger = newConsoleLogger();
 
-    const safeCookie = createCookieUpdater(logger);
-    if (!safeCookie) {
-      logger.warn("No safeCookie: Extension can not continue!");
-      return;
-    }
+  logger.log("Initializing...");
 
-    initialize(logger, safeCookie, safeStorage);
-    logger.log("Initialized!");
-  };
+  const safeStorage = resolveSafeStorage(logger);
+  if (!safeStorage) {
+    logger.warn("No safeStorage: Extension can not continue!");
+    return;
+  }
 
-  main();
-})();
+  const safeCookie = createCookieUpdater(logger);
+  if (!safeCookie) {
+    logger.warn("No safeCookie: Extension can not continue!");
+    return;
+  }
+
+  initialize(logger, safeCookie, safeStorage);
+  logger.log("Initialized!");
+};
+
+main();
