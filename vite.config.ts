@@ -5,7 +5,6 @@ import { BrowserPlatform } from "./buildsystem/plugins/webExtensionManifest/mani
 import { join } from "node:path";
 
 export default defineConfig((env) => {
-  const loaderScript = "src/loader.ts";
   const entryPointScript = "src/entrypoint.ts";
 
   const isDebug = env.mode === "development";
@@ -40,10 +39,11 @@ export default defineConfig((env) => {
       rollupOptions: {
         treeshake: true,
         output: {
+          // Chrome content scripts can only be classic scripts, not ES modules
+          format: "iife",
           minifyInternalExports: true,
         },
         input: {
-          loader: loaderScript,
           entrypoint: entryPointScript,
         },
       },
@@ -53,7 +53,6 @@ export default defineConfig((env) => {
       webExtensionManifestBuilder({
         platform,
         release: !isDebug,
-        loaderScriptEntry: loaderScript,
         contentScriptEntry: entryPointScript,
       }),
     ],

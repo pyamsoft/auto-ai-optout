@@ -63,16 +63,6 @@ export const buildManifest = function (
         matches: SUPPORTED_WEBSITES,
       },
     ],
-    web_accessible_resources: [
-      {
-        // Path must be set to /* for Chrome
-        matches: SUPPORTED_WEBSITES,
-        resources: [
-          // All script chunks
-          "assets/*.js",
-        ],
-      },
-    ],
     host_permissions: SUPPORTED_WEBSITES,
   };
 
