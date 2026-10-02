@@ -14,5 +14,8 @@ export const optOutTraining = function (
   }
 
   // New location in document.cookie
-  safeCookie.ensureCookie("oai-no-auth-training-disabled", 1).apply();
+  safeCookie
+    // Noticed as of Sep 6, 2026
+    .ensureCookie("oai-no-auth-training-disabled", 1)
+    .apply();
 };
