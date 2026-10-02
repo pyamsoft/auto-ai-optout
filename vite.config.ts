@@ -1,3 +1,4 @@
+import packageJson from "./package.json" with { type: "json" };
 import { defineConfig } from "vite";
 import { webExtensionManifestBuilder } from "./buildsystem/plugins/webExtensionManifest/webExtensionManifestBuilder.ts";
 import { removeVitePreloadFromCommonJs } from "./buildsystem/plugins/removeVitePreload/removeVitePreloadFromCommonJs.ts";
@@ -23,6 +24,10 @@ export default defineConfig((env) => {
   }
 
   return {
+    define: {
+      __PACKAGE_NAME__: JSON.stringify(packageJson.name),
+      __PACKAGE_VERSION__: JSON.stringify(packageJson.version),
+    },
     build: {
       // Disable module preload, we don't need it since the extension has no HTML
       //

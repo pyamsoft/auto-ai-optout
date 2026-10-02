@@ -1,9 +1,4 @@
-import {
-  description as pkgDescription,
-  homepage as pkgHomePage,
-  name as pkgName,
-  version as pkgVersion,
-} from "../../../package.json" with { type: "json" };
+import packageJson from "../../../package.json" with { type: "json" };
 
 const WEBSITE_CHATGPT = ["https://chatgpt.com/*", "https://*.chatgpt.com/*"];
 const SUPPORTED_WEBSITES = [...WEBSITE_CHATGPT];
@@ -53,10 +48,10 @@ export const buildManifest = function (
 ): chrome.runtime.ManifestV3 {
   const manifest: BuiltManifest = {
     manifest_version: 3,
-    name: pkgName,
-    version: pkgVersion,
-    description: pkgDescription,
-    homepage_url: pkgHomePage,
+    name: packageJson.name,
+    version: packageJson.version,
+    description: packageJson.description,
+    homepage_url: packageJson.homepage,
     content_scripts: [
       {
         js: ["<<ENTRY>>"],
