@@ -13,19 +13,20 @@ export const safeCookieUpdater = function (
   cookieProvider: () => string,
   cookieSetter: (cookie: string) => void,
 ): CookieUpdater {
-  const parseCookieMap = function (): Map<string, unknown> | undefined {
+  const parseCookieMap = function (): Map<string, string> | undefined {
     try {
       const cookieKeyValues = cookieProvider()
         // Each cookie is ";" split
         .split(";")
         // Can have whitespace bounding
         .map((s) => s.trim())
-        // Then split the = into [key, value]
-        .map((s) => s.split("="))
-        // Must be exactly KEY VALUE
-        .filter((items) => items.length !== 2)
-        // And tell map trust me bro it's a type
-        .map(([key, value]) => [key, value] as [string, string]);
+        // Must be KEY=VALUE
+        .filter((s) => s.includes("="))
+        // Split on the first = only, values can contain =
+        .map((s) => {
+          const index = s.indexOf("=");
+          return [s.slice(0, index), s.slice(index + 1)] as [string, string];
+        });
       return new Map(cookieKeyValues);
     } catch (e) {
       logger.error(e, "Unable to parse cookie into structured map.");
@@ -33,49 +34,47 @@ export const safeCookieUpdater = function (
     }
   };
 
-  const applyCookies = function (map: Map<string, unknown>) {
-    let cookie = "";
-    for (const [key, value] of map) {
-      if (cookie) {
-        cookie = `${cookie}; ${key}=${value}`;
-      } else {
-        cookie = `${key}=${value}`;
-      }
+  const applyCookies = function (updates: Map<string, unknown>) {
+    const existing = parseCookieMap();
+    if (!existing) {
+      return;
     }
 
-    if (cookie) {
-      cookieSetter(cookie);
+    // document.cookie only sets one cookie per assignment
+    // https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie#write_a_new_cookie
+    for (const [key, value] of updates) {
+      if (existing.get(key) === String(value)) {
+        continue;
+      }
+
+      try {
+        logger.log(`Set cookie: key=${key} value=${value}`);
+        cookieSetter(`${key}=${value}`);
+      } catch (e) {
+        logger.error(e, "Unable to set cookie:", key);
+      }
     }
   };
 
   return Object.freeze({
     ensureCookie: (key: string, value: unknown): CookieUpdaterBuilder => {
-      const map = parseCookieMap();
-
-      const updateMap = function (key: string, value: unknown) {
-        if (map) {
-          logger.log(`Set cookie: key=${key} value=${value}`);
-          map.set(key, value);
-        }
-      };
+      const updates = new Map<string, unknown>();
 
       const builder: CookieUpdaterBuilder = Object.freeze({
         ensureCookie: function (
           key: string,
           value: unknown,
         ): CookieUpdaterBuilder {
-          updateMap(key, value);
+          updates.set(key, value);
           return builder;
         },
 
         apply: () => {
-          if (map) {
-            applyCookies(map);
-          }
+          applyCookies(updates);
         },
       } satisfies CookieUpdaterBuilder);
 
-      updateMap(key, value);
+      updates.set(key, value);
       return builder;
     },
   } satisfies CookieUpdater);
