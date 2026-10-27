@@ -19,15 +19,16 @@
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
-    "@types/chrome": "0.3.4",
-    "@types/node": "26.6.4",
-    "eslint": "10.12.0",
-    "npm-check-updates": "23.1.0",
-    "oxlint": "1.87.0",
-    "prettier": "3.9.9",
-    "typescript": "6.0.3",
-    "typescript-eslint": "8.71.1",
-    "vite": "8.3.3"
+    "@types/chrome": "0.3.6",
+    "@types/node": "26.6.5",
+    "eslint": "10.13.0",
+    "npm-check-updates": "23.1.1",
+    "oxlint": "1.89.0",
+    "prettier": "3.9.10",
+    "typescript-eslint": "8.72.1",
+    "vite": "8.3.5",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "typescript-7": "npm:typescript@7.0.2"
   },
-  "packageManager": "pnpm@12.10.1"
+  "packageManager": "pnpm@12.15.0"
 }
