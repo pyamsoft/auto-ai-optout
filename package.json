@@ -23,12 +23,12 @@
     "@types/node": "26.6.6",
     "eslint": "10.14.0",
     "npm-check-updates": "23.1.1",
-    "oxlint": "1.90.0",
+    "oxlint": "1.91.0",
     "prettier": "3.9.10",
     "typescript-eslint": "8.72.1",
-    "vite": "8.3.5",
+    "vite": "8.3.6",
     "typescript": "npm:@typescript/typescript6@6.0.2",
     "typescript-7": "npm:typescript@7.0.2"
   },
-  "packageManager": "pnpm@12.16.1"
+  "packageManager": "pnpm@12.18.0"
 }
